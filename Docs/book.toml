@@ -1,9 +1,9 @@
 [book]
 title = "Confluence CLI"
 description = "A command-line tool for Atlassian Confluence."
-authors = ["confluence-cli contributors"]
+title = "Confluence CLI Docs"
+authors = ["Dusan K. (duki994)", "confluence-cli contributors"]
 language = "en"
-multilingual = false
 src = "src"
 
 [output.html]
