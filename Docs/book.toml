@@ -1,0 +1,17 @@
+[book]
+title = "Confluence CLI"
+description = "A command-line tool for Atlassian Confluence."
+authors = ["confluence-cli contributors"]
+language = "en"
+multilingual = false
+src = "src"
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/duki994/confluence-cli"
+edit-url-template = "https://github.com/duki994/confluence-cli/edit/main/Docs/{path}"
+
+[output.html.fold]
+enable = true
+level = 1

@@ -1,0 +1,26 @@
+[package]
+name = "confluence-cli"
+description = "A command-line tool for Atlassian Confluence."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "confluence"
+path = "src/main.rs"
+
+[dependencies]
+confluence-api.workspace = true
+confluence-auth.workspace = true
+
+anyhow.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+clap = { version = "4", features = ["derive", "env"] }
