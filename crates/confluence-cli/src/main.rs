@@ -15,7 +15,7 @@ use commands::Command;
 use context::Context;
 use output::OutputFormat;
 
-/// `Command-line tool for Atlassian Confluence.
+/// Command-line tool for Atlassian Confluence.
 #[derive(Debug, Parser)]
 #[command(
     name = "confluence",
