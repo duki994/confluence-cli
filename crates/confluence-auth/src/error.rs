@@ -53,17 +53,21 @@ pub enum Error {
 
     /// A config file is present but does not parse as valid TOML for our
     /// schema.
+    ///
+    /// The `toml::de::Error` payload is boxed to keep `Error` (and any
+    /// `Result<_, Error>`) small enough to satisfy `clippy::result_large_err`
+    /// on Windows, where `toml::de::Error` is ~128 bytes.
     #[error("failed to parse config file `{path}`")]
     ConfigParse {
         path: PathBuf,
         #[source]
-        source: toml::de::Error,
+        source: Box<toml::de::Error>,
     },
 
     /// Serializing the in-memory `HostsFile` back to TOML failed.
     /// Normally a bug rather than a user-facing condition.
     #[error("failed to serialize config file")]
-    ConfigSerialize(#[source] toml::ser::Error),
+    ConfigSerialize(#[source] Box<toml::ser::Error>),
 
     /// The supplied host string failed validation (empty, whitespace, scheme,
     /// etc).

@@ -60,13 +60,13 @@ impl HostsFile {
     pub fn from_toml(path: &Path, src: &str) -> Result<Self> {
         toml::from_str(src).map_err(|source| Error::ConfigParse {
             path: path.to_path_buf(),
-            source,
+            source: Box::new(source),
         })
     }
 
     /// Render to a `hosts.toml` payload.
     pub fn to_toml(&self) -> Result<String> {
-        toml::to_string_pretty(self).map_err(Error::ConfigSerialize)
+        toml::to_string_pretty(self).map_err(|e| Error::ConfigSerialize(Box::new(e)))
     }
 }
 
