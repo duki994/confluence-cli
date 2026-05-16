@@ -42,6 +42,31 @@ When a task is clearly within one crate's boundary, prefer the matching subagent
 Cross-crate changes (e.g. adding a new command end-to-end) are coordinated from
 this top level; delegate per-crate pieces to the relevant subagent.
 
+## Code navigation: prefer LSP over grep
+
+rust-analyzer is wired up in this repo. For navigating Rust code, **default
+to the `LSP` tool** (`documentSymbol`, `workspaceSymbol`, `goToDefinition`,
+`findReferences`, `goToImplementation`, `incomingCalls`) rather than `grep`,
+`rg`, or `Grep`. LSP returns semantically resolved answers at *current* line
+numbers — `findReferences` hits real call sites and skips comment/string
+matches; `workspaceSymbol` lists every impl of a trait without false
+positives from prose.
+
+`grep` / `Glob` are still the right tool for:
+
+- non-Rust files (TOML, Markdown, JSON, shell)
+- free-form text searches (TODO/FIXME, error-message strings, log lines)
+- listing files by name or extension
+- one-shot literal lookups where the symbol name *is* the search
+
+For everything else — "where is X defined", "who calls Y", "what implements
+this trait", "show me the symbol tree of this module" — start with LSP.
+
+**This applies to subagents too.** When delegating to `Explore`, `Plan`, or a
+crate-specific subagent, brief them to prefer LSP for code questions. Line
+numbers in prior conversations, journals, and stale docs rot quickly; LSP
+always returns the current ones.
+
 ## Toolchain & Workflow
 
 - Stable Rust, pinned in `rust-toolchain.toml`. Do not introduce nightly features.

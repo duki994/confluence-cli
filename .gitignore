@@ -15,3 +15,6 @@ Cargo.lock.bak
 
 # Local Claude Code overrides
 .claude/settings.local.json
+
+# Internal/local plan Docs
+.plan-docs-internal
