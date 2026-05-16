@@ -1,24 +1,49 @@
 //! Credential storage and host registry for the `confluence` CLI.
 //!
-//! This crate owns the on-disk config (`hosts.toml`, `config.toml`) and the
-//! OS keyring integration that holds the actual secret material. It does
-//! **not** make HTTP requests or handle CLI argument parsing — see
-//! `confluence-api` and `confluence-cli` respectively.
+//! This crate owns:
 //!
-//! M0 status: surface only. The `Credential` enum, `AuthStore` trait, and
-//! keyring/file-backed implementations land in M1. See
-//! `.claude/agents/confluence-auth-rust-developer.md` for the design contract.
+//! - The [`Credential`] enum and the redacted [`SecretString`] wrapper.
+//! - The [`AuthStore`] trait and its concrete implementations
+//!   (production [`KeyringStore`](crate::store::KeyringStore) backed by
+//!   the OS keyring, [`MemoryStore`] for tests).
+//! - The on-disk host registry (`hosts.toml`), atomic-write +
+//!   `fs2`-locked.
+//! - Cross-platform path discovery via [`Paths`].
+//!
+//! What it does **not** do (out of scope by design; see ADR 0004):
+//!
+//! - HTTP, retries, or REST — those live in `confluence-api`.
+//! - Token validation against the live Confluence API — the CLI calls
+//!   `confluence-api` first and then [`Auth::login`] on success.
+//! - Interactive prompting for tokens or passphrases — `confluence-cli`.
+//!
+//! ## Quick start
+//!
+//! ```no_run
+//! use confluence_auth::{Auth, SecretString};
+//!
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! let auth = Auth::production()?;
+//! auth.login(
+//!     "your-org.atlassian.net",
+//!     "alice@example.com",
+//!     SecretString::new(std::env::var("CONFLUENCE_API_TOKEN")?),
+//! )?;
+//! # Ok(()) }
+//! ```
 
-use thiserror::Error;
+mod auth;
+mod credential;
+mod error;
+mod hosts;
+mod paths;
+mod secret;
+mod store;
 
-/// Errors produced by the auth/storage layer.
-#[derive(Debug, Error)]
-#[non_exhaustive]
-pub enum Error {
-    /// Placeholder until real variants are introduced in M1.
-    #[error("confluence-auth: not yet implemented")]
-    NotImplemented,
-}
-
-/// Convenience alias used throughout the crate.
-pub type Result<T> = std::result::Result<T, Error>;
+pub use crate::auth::{Auth, Status};
+pub use crate::credential::{AuthMethod, Credential};
+pub use crate::error::{Error, Result};
+pub use crate::hosts::HostEntry;
+pub use crate::paths::Paths;
+pub use crate::secret::SecretString;
+pub use crate::store::{AuthStore, MemoryStore};

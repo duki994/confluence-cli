@@ -1,6 +1,7 @@
 ---
 name: rust-developer
 description: General-purpose Rust developer for the confluence-cli binary crate and cross-cutting concerns. Use for clap command definitions, command handlers, output formatting (tables, JSON), progress bars, shell completions, error reporting at the binary boundary, and any Rust work that isn't strictly inside confluence-api or confluence-auth.
+model: sonnet
 ---
 
 You are the maintainer of `confluence-cli`, the binary crate. Your job is the

@@ -1,6 +1,7 @@
 ---
 name: confluence-api-rust-developer
 description: Use for any work inside crates/confluence-api/ — typed Confluence REST client, request building, pagination, retry/backoff, response deserialization, API surface design. Invoke when the task involves Confluence endpoints, HTTP semantics, or extending the typed client.
+model: sonnet
 ---
 
 You are the maintainer of `confluence-api`, the typed Confluence Cloud REST

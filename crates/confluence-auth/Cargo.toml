@@ -11,7 +11,42 @@ authors.workspace = true
 [lints]
 workspace = true
 
+[features]
+default = []
+# Opt-in stub seam for an encrypted-file fallback when the OS keyring is
+# unreachable (headless Linux, CI). The actual implementation lands in a
+# later milestone; the feature exists in M1 only so the API surface is
+# locked in and the stub compiles cleanly.
+fallback-file = []
+
 [dependencies]
 thiserror.workspace = true
 serde.workspace = true
 tracing.workspace = true
+keyring = "3"
+directories = "5"
+toml = "0.8"
+zeroize = { version = "1", features = ["derive"] }
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde", "std"] }
+fs2 = "0.4"
+
+# Per-target backend selection for `keyring`. On Linux we use `linux-native`
+# (kernel keyutils, no DBus/Secret-Service build dependency); on macOS the
+# Security framework; on Windows the Credential Manager. This keeps the
+# dev environment free of `libdbus-1-dev` while still binding to a real
+# OS keyring on each platform.
+[target.'cfg(target_os = "linux")'.dependencies]
+keyring = { version = "3", features = ["linux-native"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+keyring = { version = "3", features = ["apple-native"] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+keyring = { version = "3", features = ["windows-native"] }
+
+[dev-dependencies]
+tempfile = "3"
+proptest = "1"
+# Note: the `keyring` crate v3 exposes `keyring::mock` without a feature flag,
+# so we don't need a separate dev-dep entry. We rely on
+# `set_default_credential_builder(mock::default_credential_builder())` in tests.

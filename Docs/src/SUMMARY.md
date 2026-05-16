@@ -20,3 +20,7 @@
   - [4. Three-crate workspace layout](./adr/0004-three-crate-workspace-layout.md)
   - [5. Storage format only for v0.1](./adr/0005-storage-format-only-for-v0-1.md)
   - [6. Clippy pedantic with documented carve-outs](./adr/0006-clippy-pedantic-with-documented-carve-outs.md)
+  - [7. Secrets wrapped in a zeroizing newtype](./adr/0007-secrets-wrapped-in-a-zeroizing-newtype.md)
+  - [8. `#[non_exhaustive]` on public enums for forward-compat](./adr/0008-non-exhaustive-on-public-enums-for-forward-compat.md)
+  - [9. `hosts.toml`: locked, atomic, ordered writes](./adr/0009-hosts-toml-locked-atomic-ordered-writes.md)
+  - [10. `AuthStore` trait object with `Send + Sync`](./adr/0010-authstore-trait-object-with-send-and-sync.md)

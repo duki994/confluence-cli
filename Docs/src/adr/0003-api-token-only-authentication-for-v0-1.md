@@ -32,6 +32,16 @@ the OS keyring through the `confluence-auth` crate; host metadata lives in
 `hosts.toml` in the platform config directory. OAuth and PAT are on the
 roadmap (post-1.0).
 
+Path discovery for `hosts.toml` goes through `directories::ProjectDirs`
+with the identifiers `("dev", "confluence", "confluence")`. That resolves
+to `~/.config/confluence/hosts.toml` on Linux (XDG Base Directory spec),
+`~/Library/Application Support/dev.confluence.confluence/hosts.toml` on
+macOS, and `%APPDATA%\confluence\confluence\config\hosts.toml` on
+Windows. Tests bypass discovery via `Paths::with_root(&tempdir)`, so the
+suite never touches real user directories. The writable-file semantics
+(advisory lock, tmp/fsync/rename, ordered emission) are documented
+separately in [[0009-hosts-toml-locked-atomic-ordered-writes]].
+
 ## Consequences
 
 - `confluence-auth` stays minimal: store/retrieve a secret, track which host
