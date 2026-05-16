@@ -4,8 +4,9 @@ Command-line tool for Atlassian Confluence, written in Rust, influenced by [`gh`
 
 > ⚠️ **Status: M0 skeleton.** The command surface is in place but every
 > handler returns `not yet implemented`. Real functionality starts landing
-> in M1 (auth + generic API). See [`CHANGELOG.md`](./CHANGELOG.md) and
-> [`Docs/src/intro.md`](./Docs/src/intro.md) for the milestone roadmap.
+> in M1 (auth + generic API). See
+> [`Docs/src/intro.md`](./Docs/src/intro.md) for the milestone roadmap and
+> [`Docs/src/adr/`](./Docs/src/adr/) for the architecture decision records.
 
 ## Scope (v0.1)
 

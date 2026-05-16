@@ -13,6 +13,11 @@ v0.1 is intentionally narrow. **Do not expand scope without an explicit ask.**
 If a task implies any of the above, stop and confirm before implementing.
 See `Docs/src/intro.md` and the project plan for the full milestone breakdown.
 
+The *reasoning* behind these scope decisions lives in the ADRs under
+`Docs/src/adr/` (0002 cloud-only, 0003 api-token-only, 0005 storage-format-only).
+This section holds the rules; the ADRs hold the why. If the two disagree, the
+ADR is the source of truth and this file should be updated.
+
 ## Repository Layout
 
 ```
@@ -98,11 +103,26 @@ block. Don't undo them without a reason.
 - Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`,
   `test:`). Scope optional but encouraged: `feat(api): ...`.
 - One logical change per commit. PRs squash-merge by default.
-- Update `CHANGELOG.md` (Keep a Changelog format) for anything user-visible.
+- User-visible decisions are captured as ADRs (`Docs/src/adr/`), not as a
+  separate changelog. Release notes can be derived from git log + ADR
+  history at tag time.
+
+## Architecture Decision Records
+
+Significant decisions are recorded as ADRs under `Docs/src/adr/`, in Michael
+Nygard's format, managed with [adr-tools](https://github.com/npryce/adr-tools).
+The location is configured in `.adr-dir` at the repository root.
+
+Before changing one of the workspace-shaping decisions (crate boundaries,
+scope, lint policy), check whether an existing ADR covers it. ADRs are
+immutable once **Accepted** — supersede them with a new ADR rather than
+editing the body. New decisions worth recording: pick `adr new "..."`
+to scaffold one.
 
 ## References
 
 - Project plan & roadmap: discuss with the user before deviating.
+- ADRs: `Docs/src/adr/` (rendered in the mdBook under *Architecture*).
 - mdBook docs: `Docs/src/`
 - Confluence Cloud REST v2: pages, spaces, attachments, comments.
 - Confluence Cloud REST v1: search (CQL), users.
